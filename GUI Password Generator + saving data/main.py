@@ -4,6 +4,22 @@ import random
 import pyperclip
 
 
+# ---------------------------- Search GENERATOR ------------------------------- #
+
+def search_info():
+    website = website_entry.get()
+    try:
+        with open("data.json") as read_file:
+            data = json.load(read_file)
+    except FileNotFoundError:
+        messagebox.showerror(title="Error", message="This account doesn't exist")
+    else:
+        if website in data:
+            messagebox.showinfo(title="Your account info", message=f"Your email: {data[website]['email']}"
+                                                                   f"\nYour Password: {data[website]['password']}")
+        else:
+            messagebox.showerror(title="Error", message="This account doesn't exist")
+
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
 def password_generator():
@@ -39,13 +55,27 @@ def save_password():
     else:
         response = messagebox.askyesno("Important", f"Please check if the details are correct, "
                                                     f"yes/no\n Website: {a}\n Username: {b}\n Password: {c}")
-        if response:
-            with open("data", "a") as file:
-                file.write(f"{a} | {b} | {c}\n")
+          if response:
+            try:
+                with open("data.json", "r") as file:
+                    # Reading old data
+                    data = json.load(file)
+            except FileNotFoundError:
+                with open("data.json", "w") as file:
+                    # Saving updated data
+                    json.dump(new_data, file, indent=4)
+            else:
+                # Updating old data with new data
+                data.update(new_data)
+                with open("data.json", "w") as file:
+                    # Saving updated data
+                    json.dump(data, file, indent=4)
+            finally:
                 website_entry.delete(0, "end")
                 username_entry.delete(0, "end")
                 password_entry.delete(0, "end")
                 website_entry.focus()
+
         else:
             print("Try Again!")
 
