@@ -1,8 +1,8 @@
 from twilio.base.exceptions import TwilioRestException
 from twilio.rest import Client
 
-account_sid = "ACc16fe1101846aaff1c15906b464d7cbd"
-auth_token = "b9d3a6cd27771df61559db6e88233b87"
+account_sid = "#############################"
+auth_token = "################################"
 
 
 class NotificationManager:
@@ -14,8 +14,8 @@ class NotificationManager:
         try:
             message = self.client.messages.create(
                 body=message,
-                from_="+13159291951",
-                to="+4407798720644"
+                from_="###############",
+                to="###############"
             )
             print("SMS send successfully")
             print("Message SID: ", message.sid)
